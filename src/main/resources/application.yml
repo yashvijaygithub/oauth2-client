@@ -1,0 +1,108 @@
+# COMMON SPRING CONFIGURATION
+
+spring:
+  profiles:
+    active: "${spring_profile_active:local}"
+  datasource:
+    driverClassName: org.postgresql.Driver
+    platform: postgres
+    initialize: true
+    continue-on-error: true
+    tomcat:
+      connection-properties: stringtype=unspecified
+  resources:
+    chain:
+      enabled: true
+  main:
+    banner-mode: "off"
+  jpa:
+    generate-ddl: true
+
+#Logging
+logging:
+  level:
+    root: INFO
+    org.springframework.web: WARN
+
+#Swagger properties
+application:
+  swagger:
+    basePackage: com.yash.oauth_client
+    name: Yash-Development
+    description: Oauth Authentication
+    termsOfServiceUrl: http://google.com
+    version: 1.0
+    contact:
+      name: Yashvijay
+      email: yashvijaybc@gmail.com
+    licence: Yashvijay Software Development Licence Agreement
+    licenceUrl: http://google.com/yashvijay
+
+server:
+  port: 8090
+
+security:
+  ignored: /favicon.ico,/lib/**,/resources/**,/v1/api-docs,/oauth/token,/swagger-ui.html,/webjars/springfox-swagger-ui/**,/configuration/security/**,/swagger-resources,/configuration/ui,/v2/api-docs,/swagger-resources/configuration/**
+
+---
+# ----------------------------------------------------------------------------------
+# Local profile configuration
+# ----------------------------------------------------------------------------------
+spring:
+  profiles: local
+  datasource:
+    url: jdbc:postgresql://192.168.43.254:5432/userdb
+    username: postgres
+    password: postgres
+
+security:
+  oauth2:
+    token: http://localhost:8080/oauth/token
+    client:
+      client-id: yash-client
+      client-secret: yash-secret
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token
+      service-id: yash-client
+---
+
+# ----------------------------------------------------------------------------------
+# Development profile configuration
+# ----------------------------------------------------------------------------------
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+security:
+  oauth2:
+    token: http://localhost:8080/oauth/token
+    client:
+      client-id: yash-client
+      client-secret: yash-secret
+    resource:
+      token-info-uri: http://localhost:8080/oauth/check_token
+      service-id: yash-client
+---
+# ----------------------------------------------------------------------------------
+# Production profile configuration
+# ----------------------------------------------------------------------------------
+spring:
+  profiles: prod
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+
+security:
+  oauth2:
+    token: ${TOKEN_URI}
+    client:
+      client-id: ${CLIENT_ID}
+      client-secret: ${CLIENT_SECRET}
+    resource:
+      token-info-uri: ${CHECK_TOKEN_URI}
+      service-id: ${SERVICE_ID}
+---
