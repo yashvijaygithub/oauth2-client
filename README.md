@@ -12,9 +12,10 @@ grant_type = password/client_credentials
 client_id = clientId
 client_secret = clientSecret
 <br>
-<b> Required incase of grant_type=password <b>
-username = your username
-password = your password
+<b> Required incase of grant_type=password <b> <br>
+
+username = your username <br>
+password = your password <br>
 
 <br>
 Now, hit the API and get the access_token/refresh_token
